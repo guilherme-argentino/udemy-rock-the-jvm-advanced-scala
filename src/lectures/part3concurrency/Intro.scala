@@ -68,7 +68,7 @@ object Intro extends App {
 //  for (_ <- 1 to 10000) runInParallel()
   // race condition
 
-  class BankAccount(var amount: Int) {
+  class BankAccount(@volatile var amount: Int) {
     override def toString: String = "" + amount
   }
 
@@ -95,4 +95,16 @@ object Intro extends App {
     thread2 (iphone): 50000
       - account = 50000 - 4000 = 46000 overwrites the memory of account.amount
    */
+
+  // option #1: use synchronized()
+  def buySafe(account: BankAccount, thing: String, price: Int): Unit =
+    account.synchronized {
+      // no two threads can evaluate this at the same time
+      account.amount -= price // account.amount = account.amount - price
+      println("I've bought " + thing)
+      println("Muy account is now " + account)
+    }
+
+  // option #2: use @volatile
+
 }
