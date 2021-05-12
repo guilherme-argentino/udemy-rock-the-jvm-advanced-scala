@@ -73,9 +73,9 @@ object Intro extends App {
   }
 
   def buy(account: BankAccount, thing: String, price: Int): Unit = {
-    account.amount -= price
-    println("I've bought " + thing)
-    println("Muy account is now " + account)
+    account.amount -= price // account.amount = account.amount - price
+//    println("I've bought " + thing)
+//    println("Muy account is now " + account)
   }
 
   for (_ <- 1 to 1000) {
@@ -85,7 +85,14 @@ object Intro extends App {
 
     thread1.start()
     thread2.start()
-    Thread.sleep(100)
-    println()
+    Thread.sleep(10)
+    if (account.amount != 43000) println("AHA: " + account.amount)
+//    println()
   }
+  /*
+    thread1 (shoes): 50000
+      - account = 500000 - 3000 = 47000
+    thread2 (iphone): 50000
+      - account = 50000 - 4000 = 46000 overwrites the memory of account.amount
+   */
 }
