@@ -25,24 +25,24 @@ object Intro extends App {
     (1 to 5).foreach(_ => println("goodbye"))
   )
 
-  threadHello.start()
-  threadGoodbye.start()
+//  threadHello.start()
+//  threadGoodbye.start()
   // different runs produce different results!
 
   // executors
   val pool = Executors.newFixedThreadPool(10)
-  pool.execute(() => println("something in the thread pool"))
+//  pool.execute(() => println("something in the thread pool"))
 
-  pool.execute(() => {
-    Thread.sleep(1000)
-    println("done after 1 second")
-  })
-  pool.execute(() => {
-    Thread.sleep(1000)
-    println("almost done")
-    Thread.sleep(1000)
-    println("done after 2 seconds")
-  })
+//  pool.execute(() => {
+//    Thread.sleep(1000)
+//    println("done after 1 second")
+//  })
+//  pool.execute(() => {
+//    Thread.sleep(1000)
+//    println("almost done")
+//    Thread.sleep(1000)
+//    println("done after 2 seconds")
+//  })
 
 //  pool.shutdownNow()
 
@@ -65,7 +65,27 @@ object Intro extends App {
     println(x)
   }
 
-  for (_ <- 1 to 10000) runInParallel()
-
+//  for (_ <- 1 to 10000) runInParallel()
   // race condition
+
+  class BankAccount(var amount: Int) {
+    override def toString: String = "" + amount
+  }
+
+  def buy(account: BankAccount, thing: String, price: Int): Unit = {
+    account.amount -= price
+    println("I've bought " + thing)
+    println("Muy account is now " + account)
+  }
+
+  for (_ <- 1 to 1000) {
+    val account = new BankAccount(50000)
+    val thread1 = new Thread(() => buy(account, "shoes", 3000))
+    val thread2 = new Thread(() => buy(account, "iPhone12", 4000))
+
+    thread1.start()
+    thread2.start()
+    Thread.sleep(100)
+    println()
+  }
 }
