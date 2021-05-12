@@ -43,4 +43,9 @@ object Intro extends App {
     Thread.sleep(1000)
     println("done after 2 seconds")
   })
+
+  pool.shutdown()
+  pool.execute(() =>
+    println("should not appear")
+  ) // throws an exception in the calling thread
 }
