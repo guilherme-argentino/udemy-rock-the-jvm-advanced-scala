@@ -18,4 +18,12 @@ object Intro extends App {
   runnable.run() // doesn't do anything in parallel!
   aThread.join() // blocks until aThread finishes running
 
+  val threadHello = new Thread(() => (1 to 5).foreach(_ => println("hello")))
+  val threadGoodbye = new Thread(() =>
+    (1 to 5).foreach(_ => println("goodbye"))
+  )
+
+  threadHello.start()
+  threadGoodbye.start()
+  // different runs produce different results!
 }
