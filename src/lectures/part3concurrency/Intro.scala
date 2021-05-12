@@ -47,8 +47,25 @@ object Intro extends App {
 //  pool.shutdownNow()
 
   pool.shutdown()
-//  pool.execute(() =>
-//    println("should not appear")
-//  ) // throws an exception in the calling thread
   println(pool.isShutdown)
+
+  def runInParallel(): Unit = {
+    var x = 0
+
+    val thread1 = new Thread(() => {
+      x = 1
+    })
+
+    val thread2 = new Thread(() => {
+      x = 2
+    })
+
+    thread1.start()
+    thread2.start()
+    println(x)
+  }
+
+  for (_ <- 1 to 10000) runInParallel()
+
+  // race condition
 }
