@@ -107,4 +107,41 @@ object Intro extends App {
 
   // option #2: use @volatile
 
+  /**
+    * Exercises
+    *
+    * 1) Construct 50 "inception" threads
+    *    Thread1 -> thread2 -> thread3-> ...
+    *
+    */
+
+  /**
+    * 2)
+    */
+  var x = 0
+  val threads = (1 to 100).map(_ => new Thread(() => x += 1))
+  threads.foreach(_.start())
+  /*
+    1) what is the biggest value possible for x?
+    2) what is the SMALLEST value possible for x?
+   */
+
+  /**
+    * 3) sleep fallacy
+    */
+  var message = ""
+  val awesomeThread = new Thread(() => {
+    Thread.sleep(1000)
+    message = "Scala is awesome"
+  })
+
+  message = "Scala sucks"
+  awesomeThread.start()
+  Thread.sleep(2000)
+  println(message)
+  /*
+    what's the value of message?
+    is it guaranteed?
+    why? why not?
+   */
 }
